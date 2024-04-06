@@ -546,7 +546,7 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
     end
 
     -------------------------------------- [[ Save Value ]] ------------------------------------------------------
-    
+    ------------------------------- TEST NEW WEBHOOK -------------------------------
     --ItemDrop_Resulte
     local ItemPlayerData_ = game:GetService("ReplicatedStorage").Remotes.GetPlayerData:InvokeServer()
     function get_inventory_items()
@@ -559,6 +559,7 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
         return ItemPlayerData_['UnitData']
     end
 
+    local Count_Portal_list = 0
     local Table_All_Items_Old_data = {}
     local Table_All_Items_New_data = {}
     local Data_Items_All_Games = require(game:GetService("ReplicatedStorage").Modules.ItemNames)
@@ -586,13 +587,14 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
     for i,v in pairs(get_inventory_portals_items()) do
         if string.find(v['PortalName'],"Tier 1") or string.find(v['PortalName'],"Tier 2") or string.find(v['PortalName'],"Tier 3") 
         or string.find(v['PortalName'],"Tier 4") or string.find(v['PortalName'],"Tier 5") or string.find(v['PortalName'],"Valentines Portal") then
+            Count_Portal_list = Count_Portal_list + 1
             Table_All_Items_Old_data[v['PortalName']]['Amount'] = Table_All_Items_Old_data[v['PortalName']]['Amount'] + 1
         end
     end
     for i,v in pairs(get_Units_Owner()) do
         Table_All_Items_Old_data[v["UnitName"]]['Amount'] = Table_All_Items_Old_data[v["UnitName"]]['Amount'] + 1
     end
-
+    ------------------------------- TEST NEW WEBHOOK -------------------------------
     --Reroll
     local args = { [1] = game:GetService("Players").LocalPlayer }
     PlayerData3 = game:GetService("ReplicatedStorage").Remotes.GetPlayerData:InvokeServer(unpack(args))
@@ -1901,6 +1903,7 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
             if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild('EndGameUI') and SaveSettings["Notifier"]["Send After End Game"] == true then
 
                 ------------------------------- TEST NEW WEBHOOK -------------------------------
+
                 local TextDropLabelTest = ""
                 local CountAmountTest = 1
                 for i,v in pairs(get_inventory_items()) do
@@ -1930,24 +1933,25 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
         
                 for i,v in pairs(Table_All_Items_New_data) do
                     if v['Amount'] > 0 and (v['Amount'] - Table_All_Items_Old_data[i]['Amount']) > 0 then
-                        if v['Amount'] then
-                        elseif string.find(i,"Tier") or string.find(i,"Tier 1") or string.find(i,"Tier 2") or string.find(i,"Tier 3") or string.find(i,"Tier 4") or string.find(i,"Tier 5") or string.find(i,"Valentines Portal") or string.find(i,"Valentines") or string.find(i,"Portal") then
-                            if string.gsub(i, "%D", "") == "" then
-                                TextDropLabelTest = TextDropLabelTest .. tostring(CountAmountTest) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]\n"
-                            else
-                                TextDropLabelTest = TextDropLabelTest .. tostring(CountAmountTest) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]\n"
-                            end
-                                CountAmountTest = CountAmountTest + 1
-                            else
-                                TextDropLabelTest = TextDropLabelTest .. tostring(CountAmountTest) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]\n"
-                                CountAmountTest = CountAmountTest + 1
-                            end
+                        Count_Portal_list = Count_Portal_list + 1
+                        if string.gsub(i, "%D", "") == "" then
+                            warn(tostring(v['Name']) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]")
+                            TextDropLabelTest = TextDropLabelTest .. tostring(CountAmountTest) .. ". " .. tostring(v['UnitName']) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]\n"
+                        else
+                            TextDropLabelTest = TextDropLabelTest .. tostring(CountAmountTest) .. ". " .. tostring(v['PortalName']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]\n"
+                            warn(tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]")
+                        end
+                        else
+                            TextDropLabelTest = TextDropLabelTest .. tostring(CountAmountTest) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]\n"
+                            warn(tostring(v['Name']) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]")
                         end
                     end
+        
         
                 if TextDropLabelTest == "" then
                     TextDropLabelTest = "Not Have Items Drops"
                 end
+                
                 ------------------------------- TEST NEW WEBHOOK -------------------------------
 
                 local args = { [1] = game:GetService("Players").LocalPlayer }
