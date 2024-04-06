@@ -564,24 +564,24 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
     local Data_Items_All_Games = require(game:GetService("ReplicatedStorage").Modules.ItemNames)
     for i,v in pairs(Data_Items_All_Games) do
         Table_All_Items_Old_data[i] = {}
-        Table_All_Items_Old_data[i]['Name'] = v
+        Table_All_Items_Old_data[i]['Name'] = tostring(v)
         Table_All_Items_Old_data[i]['Amount'] = 0
         Table_All_Items_New_data[i] = {}
-        Table_All_Items_New_data[i]['Name'] = v
+        Table_All_Items_New_data[i]['Name'] = tostring(v)
         Table_All_Items_New_data[i]['Amount'] = 0
     end
     local Data_Units_All_Games = require(game:GetService("ReplicatedStorage").Modules.UnitNames)
     for i,v in pairs(Data_Units_All_Games) do
         Table_All_Items_Old_data[i] = {}
-        Table_All_Items_Old_data[i]['Name'] = v
+        Table_All_Items_Old_data[i]['Name'] = tostring(v)
         Table_All_Items_Old_data[i]['Amount'] = 0
         Table_All_Items_New_data[i] = {}
-        Table_All_Items_New_data[i]['Name'] = v
+        Table_All_Items_New_data[i]['Name'] = tostring(v)
         Table_All_Items_New_data[i]['Amount'] = 0
     end
 
     for i,v in pairs(get_inventory_items()) do
-        Table_All_Items_Old_data[i]['Amount'] = v['Amount']
+        Table_All_Items_Old_data[i]['Amount'] = tostring(v['Amount'])
     end
     for i,v in pairs(get_inventory_items_unique_items()) do
         if string.find(v['PortalName'],"Tier 1") or string.find(v['PortalName'],"Tier 2") or string.find(v['PortalName'],"Tier 3") 
@@ -1904,7 +1904,7 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
                 local TextDropLabelTest = ""
                 local CountAmountTest = 1
                 for i,v in pairs(get_inventory_items()) do
-                    Table_All_Items_New_data[i]['Amount'] = v['Amount']
+                    Table_All_Items_New_data[i]['Amount'] = tostring(v['Amount'])
                 end
                 for i,v in pairs(get_inventory_items_unique_items()) do
                     if string.find(v['PortalName'],"Tier 1") or string.find(v['PortalName'],"Tier 2") or string.find(v['PortalName'],"Tier 3") 
@@ -1927,11 +1927,11 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
                         end
                     end
                 end
-        
+
                 for i,v in pairs(Table_All_Items_New_data) do
                     if v['Amount'] > 0 and (v['Amount'] - Table_All_Items_Old_data[i]['Amount']) > 0 then
                         if v['Amount'] then
-                        elseif string.find(i,"Tier") or string.find(i,"Valentine") then
+                        elseif string.find(i,"Tier") or string.find(i,"Tier 1") or string.find(i,"Tier 2") or string.find(i,"Tier 3") or string.find(i,"Tier 4") or string.find(i,"Tier 5") or string.find(i,"Valentines Portal") or string.find(i,"Valentines") or string.find(i,"Portal") then
                             if string.gsub(i, "%D", "") == "" then
                                 TextDropLabelTest = TextDropLabelTest .. tostring(CountAmountTest) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Amount'] - Table_All_Items_Old_data[i]['Amount']) .. " [Total : " .. tostring(v['Amount']) .. "]\n"
                             else
@@ -1944,10 +1944,11 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
                             end
                         end
                     end
-        
+
                 if TextDropLabelTest == "" then
                     TextDropLabelTest = "Not Have Items Drops"
                 end
+
                 ------------------------------- TEST NEW WEBHOOK -------------------------------
 
                 local args = { [1] = game:GetService("Players").LocalPlayer }
