@@ -5,6 +5,8 @@ else
     SaveKeyCheck = readfile("HolyShz/SaveKey.txt")
 end
 
+warn("[HolyShz] : Only Send Error Code after this Message")
+
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
@@ -60,11 +62,11 @@ if PandaAuth then
     print(result)
     if not success then
         keyless = true
-        print("Failed to retrieve AuthLink. PandaAuth Error, Holyshz is Keyless!!")
+        print("[HolyShz Hub] : Failed to retrieve AuthLink. PandaAuth Error, HolyShz Hub is Keyless!!")
     end
 else
     keyless = true
-    print("PandaAuth Error, Holyshz is Keyless!!")
+    print("[HolyShz Hub] : PandaAuth Error, HolyShz Hub is Keyless!!")
 end
 
 if keyless then
