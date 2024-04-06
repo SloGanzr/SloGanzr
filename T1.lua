@@ -548,15 +548,15 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
     -------------------------------------- [[ Save Value ]] ------------------------------------------------------
     
     --ItemDrop_Resulte
-    local ItemInventoryServiceClient = game:GetService("ReplicatedStorage").Remotes.GetPlayerData:InvokeServer()
+    local ItemPlayerData_ = game:GetService("ReplicatedStorage").Remotes.GetPlayerData:InvokeServer()
     function get_inventory_items()
-        return ItemInventoryServiceClient['ItemData']
+        return ItemPlayerData_['ItemData']
     end
-    function get_inventory_items_unique_items()
-        return ItemInventoryServiceClient['PortalData']
+    function get_inventory_portals_items()
+        return ItemPlayerData_['PortalData']
     end
     function get_Units_Owner()
-        return ItemInventoryServiceClient['UnitData']
+        return ItemPlayerData_['UnitData']
     end
 
     local Table_All_Items_Old_data = {}
@@ -583,7 +583,7 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
     for i,v in pairs(get_inventory_items()) do
         Table_All_Items_Old_data[i]['Amount'] = tostring(v['Amount'])
     end
-    for i,v in pairs(get_inventory_items_unique_items()) do
+    for i,v in pairs(get_inventory_portals_items()) do
         if string.find(v['PortalName'],"Tier 1") or string.find(v['PortalName'],"Tier 2") or string.find(v['PortalName'],"Tier 3") 
         or string.find(v['PortalName'],"Tier 4") or string.find(v['PortalName'],"Tier 5") or string.find(v['PortalName'],"Valentines Portal") then
             Table_All_Items_Old_data[v['PortalName']]['Amount'] = Table_All_Items_Old_data[v['PortalName']]['Amount'] + 1
@@ -1906,7 +1906,7 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
                 for i,v in pairs(get_inventory_items()) do
                     Table_All_Items_New_data[i]['Amount'] = tostring(v['Amount'])
                 end
-                for i,v in pairs(get_inventory_items_unique_items()) do
+                for i,v in pairs(get_inventory_portals_items()) do
                     if string.find(v['PortalName'],"Tier 1") or string.find(v['PortalName'],"Tier 2") or string.find(v['PortalName'],"Tier 3") 
                     or string.find(v['PortalName'],"Tier 4") or string.find(v['PortalName'],"Tier 5") or string.find(v['PortalName'],"Valentines Portal") then
                         Table_All_Items_New_data[v['PortalName']]['Amount'] = Table_All_Items_New_data[v['PortalName']]['Amount'] + 1
@@ -1927,7 +1927,7 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
                         end
                     end
                 end
-
+        
                 for i,v in pairs(Table_All_Items_New_data) do
                     if v['Amount'] > 0 and (v['Amount'] - Table_All_Items_Old_data[i]['Amount']) > 0 then
                         if v['Amount'] then
@@ -1944,11 +1944,10 @@ if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild(
                             end
                         end
                     end
-
+        
                 if TextDropLabelTest == "" then
                     TextDropLabelTest = "Not Have Items Drops"
                 end
-
                 ------------------------------- TEST NEW WEBHOOK -------------------------------
 
                 local args = { [1] = game:GetService("Players").LocalPlayer }
