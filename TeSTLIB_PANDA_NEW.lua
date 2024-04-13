@@ -62,7 +62,7 @@ function Get_RequestData(data_link)
 			warn("[Panda Auth] - Internal Error. [" .. response.StatusCode .. "]")
 		elseif CodeStatus == 403 then
 			warn("[Panda Auth] - Unable to Access the Server. [" .. response.StatusCode .. "]")
-		elseif CodeStatus == 500 then
+		elseif CodeStatus == 501 then
 			warn("[Panda Auth] - Internal Error. [" .. response.StatusCode .. "]")
 		end
 		return "No_Data"
